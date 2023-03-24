@@ -1,0 +1,55 @@
+.login__Contrainer .login__Row .login__Col{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    justify-content: center;
+    background-color: #f1f3f6;
+    padding: 20px;
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, .2);
+}
+
+.login__Contrainer .login__Row .login__Col .login__MainHeader{
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+}
+
+.login__Contrainer .login__Row .login__Col .login__SecondHeader{
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+}
+
+.login__Contrainer .login__Row .login__Col form.login__From .form-group input{
+    border-radius: 0;
+}
+
+.login__Contrainer .login__Row .login__Col form.login__From .form-group input[placeholder]{
+    font-size: 14px;
+}
+
+.login__Contrainer .login__Row .login__Col form.login__From .form-group label{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login__Contrainer .login__Row .login__Col .login__btn{
+    border-radius: 0;
+    background-color: black;
+    border-color: #2e2e2e;
+}
+
+.login__Contrainer .login__Row .login__Col .login__btn:hover{
+    background-color: rgb(22, 22, 22);
+    border-color: #3d3d3d;
+}
+
+.login__Contrainer .login__Row .login__Col .copyright__Text{
+    display: block;
+    text-align: center;
+    margin: 20px;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+}

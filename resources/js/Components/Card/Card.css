@@ -1,0 +1,60 @@
+.card__Box{
+    width: 400px !important;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.card__Box .card__Upper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.card__Box .card__Upper .cardBox__Left i{
+    font-size: 50px;
+}
+
+.card__Box .card__Upper .cardBox__Right span{
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.card__Box .card__Upper .cardBox__Right p.title__Right{
+    font-size: 14px;
+}
+
+#pay__Box{
+    background-color: #428bca;
+    color: #fff;
+}
+
+#trans__Box{
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.card__Box .card__Footer{
+    box-sizing: border-box;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.card__Box .card__Footer .cardFooter__Link a{
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#pay__Box .card__Footer .cardFooter__Link a{
+    color: #428bca;
+}
+
+#trans__Box .card__Footer .cardFooter__Link a{
+    color: #5cb85c;
+}

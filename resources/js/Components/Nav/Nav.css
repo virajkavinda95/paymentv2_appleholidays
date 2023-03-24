@@ -1,0 +1,28 @@
+.navbar .custom__NavBox{
+    display: block;
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.drop__Menu{
+    margin-left: -20px !important;
+    margin-top: 10px;
+    border-radius: 0;
+    background-color: #b4b4b4;
+    z-index: 9999 !important;
+}
+
+.drop__Menu a{
+    color: #fff;
+}
+
+.nav__Div{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+.nav__Div .navbar{
+    padding-left: 25px;
+}

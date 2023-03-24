@@ -1,0 +1,27 @@
+.payment__DetailTbl thead tr th{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.payment__DetailTbl{
+    text-align: center;
+}
+
+.btn__ViewTrans{
+    border-radius: 0;
+    font-size: 11px;
+    background-color: #252525 !important;
+    color: #fff;
+    border-color: #252525;
+}
+
+.btn__ViewTrans:hover{
+    background-color: #fff !important;
+    border-color: #000000;
+}
+
+.btn__ViewTrans:focus{
+    background-color: #252525;
+    color: #fff;
+    outline-color: #252525;
+}

@@ -1,0 +1,92 @@
+.wrapper {
+    margin:0;
+    padding-right:250px;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    
+}
+
+#sidebar {
+    background-color: #212529;
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    padding-top: 50px;
+    left: 0px;
+    top: 55px;
+    transition: all 0.3s;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+}
+
+#sidebar .components li{
+    margin: 5px 0;
+    padding: 5px 0;
+    width: 100%;
+    display: block;
+}
+
+#sidebar a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#sidebar .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+#sidebar .components li a{
+    display: block;
+    padding: 10px;
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+}
+
+#sidebar .components li a:hover{
+    background-color: #848688;
+}
+
+#sidebar .components li ul.collapse li:hover{
+    background-color: #848688;
+}
+
+#sidebar .components li ul.collapse li a{
+    padding: 0px 20px;
+}
+
+.content__Area{
+    width: 100%;
+    position: absolute;
+    left: -45px;
+    top: 70px;
+    margin-left: 0;
+}
+
+.logout__Sec{
+    position: absolute;
+    bottom: 70px;
+    width: 100%;
+    background-color: #000;
+}
+
+.logout__Sec:hover{
+    background-color: #428bca;
+    color: #fff;
+}
+
+.logout__Sec a{
+    width: 100%;
+    display: block;
+    text-align: center !important;
+    text-decoration: none;
+    padding: 10px;
+    text-transform: uppercase;
+    color: #fff;
+}
