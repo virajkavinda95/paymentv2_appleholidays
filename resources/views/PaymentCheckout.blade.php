@@ -47,9 +47,11 @@
                     <p style="font-weight:bold;font-size:14px">Customer E-mail: {{ $dataset->customer_email }}</p>
 
                     <p style="color:darkgrey;font-size:12px;font-style:italic;">Please contact us for any clarification : accounts9@appleholidaysds.com</p>
+
+                    <input type="checkbox" name="termscheckbox" onclick="enableBtn(this,'btn__ClickPay')"/> <small>I agree with the <a href="#">Terms & Conditions</a></small>
                 </div>
 
-                <button type="submit" class="btn btn-success d-block btn-sm btn__ClickPay" style="display:block;margin:50px auto;width:100%;border-radius:0;" onclick="Checkout.showPaymentPage();">Click to Pay</button>
+                <button type="submit" class="btn btn-success d-block btn-sm btn__ClickPay" id="btn__ClickPay" style="display:block;margin:50px auto;width:100%;border-radius:0;" onclick="Checkout.showPaymentPage();" disabled>Click to Pay</button>
 
             </div>
         </div>
@@ -60,13 +62,17 @@
             console.log(JSON.stringify(error));
         }
 
+        function enableBtn(checkbox,btnId){
+            document.getElementById(btnId).disabled = !checkbox.checked;
+        }
+
         var sessionId = '{{$session_id}}'
         var version = '{{$version}}'
         Checkout.configure({
             session: {
                 id: sessionId,
                 // version: version
-            }
+            },
         });
 
         $('#exampleModal').on('shown.bs.modal', function(e) {
