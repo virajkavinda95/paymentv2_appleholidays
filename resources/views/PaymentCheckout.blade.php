@@ -15,8 +15,6 @@
     <script src="https://cbcmpgs.gateway.mastercard.com/static/checkout/checkout.min.js" data-error="errorCallback" data-beforeRedirect="Checkout.saveFormFields" data-afterRedirect="Checkout.restoreFormFields">
     </script>
 
-    </script>
-
 </head>
 
 <style>
@@ -61,8 +59,6 @@
         function errorCallback(error) {
             console.log(JSON.stringify(error));
         }
-
-        // successCallBack = 'http://localhost:8000/api/get_pay_response/{{$dataset->payment_id}}';
 
         var sessionId = '{{$session_id}}'
         var version = '{{$version}}'

@@ -25,3 +25,7 @@
     color: #fff;
     outline-color: #252525;
 }
+
+.testDivBox{
+    width: 100% !important;
+}

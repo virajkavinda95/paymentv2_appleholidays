@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -28,9 +28,10 @@ Route::get('/get_pay_response/{id}', [PaymentController::class, 'getPaymentRespo
 Route::get('/get_payment_details', [PaymentController::class, 'getPaymentsDetails']);
 Route::get('/get_count', [PaymentController::class, 'getCount']);
 Route::post('/print_reciept', [PaymentController::class, 'printPdf']);
+Route::post('/get_payment_details_by_id', [PaymentController::class, 'getPaymentsDetailsById']);
+Route::post('/auth_user', [AuthController::class, 'getAuthUser']);
 
 
 
-Route::group(['middleware' => 'api'], function () {
-    Route::post('/auth_user', [AuthController::class, 'getAuthUser']);
-});
+// Route::group(['middleware' => 'api'], function () {
+// });

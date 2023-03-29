@@ -8,6 +8,20 @@ import axios from "axios";
 
 //     const res = fetch('')
 // }
+function authUser() {
+    var token = sessionStorage.getItem('token')
+
+    const apiUrl = axios.create({
+        baseURL: "http://localhost:8000/api",
+        headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    })
+
+    return { 'authUrl': apiUrl }
+}
 
 async function createPaymentLinkUrl(dataset) {
 
@@ -46,6 +60,7 @@ async function createPaymentLinkUrl(dataset) {
     }
 }
 
+//fetching payment details all
 async function getPaymentData() {
     try {
 
@@ -62,6 +77,28 @@ async function getPaymentData() {
         })
 
         return paymentArray;
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+
+//fetching payment details all by payment id
+async function getPaymentDataById(payid) {
+    try {
+
+        var paymentArray = new Array();
+
+        await authUser().authUrl.post('get_payment_details_by_id', { 'payId': payid }).then((res) => {
+            console.log(res);
+            if (res.data.status === 200) {
+                paymentArray = res.data.data_response
+            }
+
+        }).catch((err) => {
+            throw new Error(err)
+        })
+
+        return { 'data': paymentArray };
     } catch (err) {
         throw new Error(err)
     }
@@ -90,4 +127,4 @@ async function getCountData() {
     }
 }
 
-export { createPaymentLinkUrl, getPaymentData, getCountData }
+export { createPaymentLinkUrl, getPaymentData, getCountData, getPaymentDataById }

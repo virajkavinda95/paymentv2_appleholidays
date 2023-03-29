@@ -78,10 +78,20 @@ class PaymentController extends Controller
         // return $data;
     }
 
+    //get payment details
     public function getPaymentsDetails()
     {
 
         $response = $this->payment->fetchPaymentDetails();
+
+        return $response;
+    }
+
+    //fetch payment details by id
+    public function getPaymentsDetailsById(Request $request)
+    {
+
+        $response = $this->payment->fetchPaymentDetailsByPayId($request['payId']);
 
         return $response;
     }

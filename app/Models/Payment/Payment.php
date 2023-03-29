@@ -55,9 +55,6 @@ class Payment extends Model
                 'payment_for' => $payfor
             ]);
 
-            /* Checkout Array */
-
-            // return $NewPayment->id;
 
             $CheckoutArray['apiOperation'] = "INITIATE_CHECKOUT";
             $CheckoutArray['interaction']['merchant']['name'] = $this->MerchantId;
@@ -198,6 +195,31 @@ class Payment extends Model
                 'status' => 200,
                 'payCount' => $PaymentCount,
                 'transCount' => $TransactionCount
+            ]);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    //get all the payment details
+    public function fetchPaymentDetailsByPayId($id)
+    {
+        try {
+
+            $PaymentDetails = DB::table('payments')->where('payments.id', $id)
+                ->join('payment_details', 'payments.id', '=', 'payment_details.payment_id')
+                ->join('payment_amounts', 'payments.id', '=', 'payment_amounts.payment_id')
+                ->join('pending_payments', 'payments.id', '=', 'pending_payments.payment_id')
+                ->join('transactions', 'payments.id', '=', 'transactions.payment_id')
+                ->join('users', 'payment_details.created_by', '=', 'users.id')
+                ->select('*', 'payments.id AS PaymentId', 'transactions.id AS TransactionId')
+                ->groupBy('payments.id')
+                ->first();
+
+
+            return response([
+                'status' => 200,
+                'data_response' => $PaymentDetails
             ]);
         } catch (\Exception $ex) {
             throw $ex;

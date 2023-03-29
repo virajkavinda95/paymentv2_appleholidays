@@ -9,6 +9,7 @@ function Dashboard() {
 
     const { http_call } = AuthUser();
     const [userData, setUserData] = useState([]);
+    console.log(userData);
 
     useEffect(() => {
         fetchUserData();
@@ -16,6 +17,7 @@ function Dashboard() {
 
     const fetchUserData = () => {
         http_call.post('/auth_user').then((res) => {
+            console.log(res.status);
             if (res.data.status === 200) {
                 setUserData(res.data.user)
             }
