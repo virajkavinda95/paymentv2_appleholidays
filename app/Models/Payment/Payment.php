@@ -59,7 +59,7 @@ class Payment extends Model
             $CheckoutArray['apiOperation'] = "INITIATE_CHECKOUT";
             $CheckoutArray['interaction']['merchant']['name'] = $this->MerchantId;
             $CheckoutArray['interaction']['operation'] = "PURCHASE";
-            $CheckoutArray['interaction']['returnUrl'] = "http://localhost:8000/api/get_pay_response/" . $NewPayment->id;
+            $CheckoutArray['interaction']['returnUrl'] = "https://paydev.appletechlabs.com/api/get_pay_response/" . $NewPayment->id;
             $CheckoutArray['order']['amount'] = $withchargeamount;
             $CheckoutArray['order']['currency'] = "LKR";
             $CheckoutArray['order']['description'] = $remarks;

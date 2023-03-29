@@ -35,7 +35,7 @@ export default function AuthUser() {
     }
 
     const http_call = axios.create({
-        baseURL: "http://localhost:8000/api",
+        baseURL: "https://paydev.appletechlabs.com/api/",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`

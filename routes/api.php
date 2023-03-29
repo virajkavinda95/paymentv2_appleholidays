@@ -31,7 +31,5 @@ Route::post('/print_reciept', [PaymentController::class, 'printPdf']);
 Route::post('/get_payment_details_by_id', [PaymentController::class, 'getPaymentsDetailsById']);
 Route::post('/auth_user', [AuthController::class, 'getAuthUser']);
 
-
-
-// Route::group(['middleware' => 'api'], function () {
-// });
+Route::group(['middleware' => 'api'], function () {
+});
