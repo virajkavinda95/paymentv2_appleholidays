@@ -57,7 +57,7 @@ class Payment extends Model
 
 
             $CheckoutArray['apiOperation'] = "INITIATE_CHECKOUT";
-            $CheckoutArray['interaction']['merchant']['name'] = $this->MerchantId;
+            $CheckoutArray['interaction']['merchant']['name'] = 'Apple Holidays';
             $CheckoutArray['interaction']['operation'] = "PURCHASE";
             $CheckoutArray['interaction']['returnUrl'] = "https://paydev.appletechlabs.com/api/get_pay_response/" . $NewPayment->id;
             $CheckoutArray['interaction']['displayControl']['billingAddress'] = 'HIDE';
@@ -67,6 +67,8 @@ class Payment extends Model
             $CheckoutArray['order']['currency'] = "LKR";
             $CheckoutArray['order']['description'] = $remarks;
             $CheckoutArray['order']['id'] = $NewPayment->id;
+
+            // return $CheckoutArray;
 
             $API_Response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->post('https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/session', $CheckoutArray)->json();
 
