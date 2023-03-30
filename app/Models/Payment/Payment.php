@@ -117,24 +117,37 @@ class Payment extends Model
 
             $API_response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->get($Url)->json();
 
-            $AuthToken = $API_response['authentication']['3ds']['authenticationToken'];
-            $TransToken = $API_response['authentication']['3ds']['transactionId'];
-            $AuthStatus = $API_response['authenticationStatus'];
+            // $AuthToken = $API_response['transaction'][0]['transaction']['receipt'];
+            // $TransToken = $API_response['transaction']['acquirer']['transactionId'];
+            // $AuthStatus = $API_response['authenticationStatus'];
             $Result = $API_response['result'];
             $Status = $API_response['status'];
             $UserIp = $API_response['device']['ipAddress'];
 
+            $Validator =  $API_response['sourceOfFunds']['type'];
 
-            Transaction::create([
-                'payment_id' => $id,
-                'auth_token' => $AuthToken,
-                'trans_token' => $TransToken,
-                'auth_status' => $AuthStatus,
-                'result' => $Result,
-                'payment_status' => $Status,
-                'user_ip' => $UserIp,
-            ]);
+            if ($Validator === 'UNION_PAY') {
 
+                Transaction::create([
+                    'payment_id' => $id,
+                    'auth_token' => $API_response['transaction'][0]['transaction']['receipt'],
+                    'trans_token' => $API_response['transaction'][0]['transaction']['acquirer']['transactionId'],
+                    'auth_status' => $API_response['transaction'][0]['browserPayment']['interaction']['status'],
+                    'result' => $Result . '.' . $Validator,
+                    'payment_status' => $Status,
+                    'user_ip' => $UserIp,
+                ]);
+            } else {
+                Transaction::create([
+                    'payment_id' => $id,
+                    'auth_token' => $API_response['transaction'][0]['authentication']['3ds']['authenticationToken'],
+                    'trans_token' => $API_response['transaction'][0]['transaction']['id'],
+                    'auth_status' => $API_response['authenticationStatus'],
+                    'result' => $Result,
+                    'payment_status' => $Status,
+                    'user_ip' => $UserIp,
+                ]);
+            }
 
             $SqlQuery = DB::table('payments')->where('payments.id', $id)
                 ->join('payment_details', 'payments.id', '=', 'payment_details.payment_id')

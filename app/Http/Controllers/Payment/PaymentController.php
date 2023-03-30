@@ -117,4 +117,11 @@ class PaymentController extends Controller
             throw $ex;
         }
     }
+
+    public function getPaymentRes($id)
+    {
+        $response = $this->payment->getPaymentResponse($id);
+
+        return $response;
+    }
 }
