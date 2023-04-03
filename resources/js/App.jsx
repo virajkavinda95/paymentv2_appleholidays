@@ -1,8 +1,9 @@
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import Router from '../Routes/Router';
 import toast, { Toaster } from 'react-hot-toast';
+import SessionTime from './SessionTime';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
@@ -12,8 +13,21 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[nam
 axios.defaults.baseURL = "https://paydev.appletechlabs.com/api/";
 
 export default function App() {
+
+    const authUser = sessionStorage.getItem('token')
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!authUser) {
+            navigate('/')
+        }
+    }, [])
+
     return (
-        <Router />
+        <>
+            <Router />
+        </>
     );
 }
 

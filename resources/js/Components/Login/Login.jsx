@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthUser from '../API_authservices';
 import './Login.css';
 import toast from 'react-hot-toast';
@@ -47,6 +47,9 @@ function Login() {
             throw new Error(err);
         })
     }
+
+    useEffect(() => {
+    }, [])
 
     return (
         <>

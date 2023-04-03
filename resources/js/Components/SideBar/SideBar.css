@@ -1,7 +1,6 @@
 .wrapper {
     margin:0;
     padding-right:250px;
-    position: relative;
     height: 100%;
     overflow: hidden;
     z-index: 999;
@@ -11,7 +10,6 @@
     background-color: #212529;
     height: 100%;
     width: 220px;
-    position: fixed;
     padding-top: 50px;
     left: 0px;
     top: 55px;
@@ -59,34 +57,4 @@
 
 #sidebar .components li ul.collapse li a{
     padding: 0px 20px;
-}
-
-.content__Area{
-    width: 100%;
-    position: absolute;
-    left: -45px;
-    top: 70px;
-    margin-left: 0;
-}
-
-.logout__Sec{
-    position: absolute;
-    bottom: 70px;
-    width: 100%;
-    background-color: #000;
-}
-
-.logout__Sec:hover{
-    background-color: #428bca;
-    color: #fff;
-}
-
-.logout__Sec a{
-    width: 100%;
-    display: block;
-    text-align: center !important;
-    text-decoration: none;
-    padding: 10px;
-    text-transform: uppercase;
-    color: #fff;
 }

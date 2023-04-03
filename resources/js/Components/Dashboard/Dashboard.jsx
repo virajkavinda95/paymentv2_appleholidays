@@ -3,7 +3,6 @@ import Nav from '../Nav/Nav';
 import './Dashboard.css';
 import AuthUser from '../API_authservices';
 import toast from 'react-hot-toast';
-import SideBar from '../SideBar/SideBar';
 
 function Dashboard() {
 
@@ -34,16 +33,8 @@ function Dashboard() {
 
     return (
         <div>
-            <div className='container-fluid'>
-                <div className='row'>
-                    <div className='col-12'>
-                        <Nav authuser={userData.name} />
-                    </div>
-                </div>
-                <div>
-                    <SideBar />
-                </div>
-            </div>
+            <Nav authuser={userData.name} />
+            {/* <SideBar /> */}
         </div>
     )
 }

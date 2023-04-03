@@ -27,3 +27,23 @@
 .nav__Div .navbar{
     padding-left: 25px;
 }
+
+.content__Area{
+    width: 100%;
+    margin-top: 100px;
+}
+
+.logout__Link:hover{
+    background-color: #428bca;
+    color: #fff;
+}
+
+.logout__Link{
+    width: 100%;
+    display: block;
+    text-align: center !important;
+    text-decoration: none;
+    padding: 10px;
+    text-transform: uppercase;
+    color: #fff;
+}

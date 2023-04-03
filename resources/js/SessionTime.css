@@ -1,0 +1,42 @@
+.session__MainDiv .ReactModal__Overlay{
+    z-index: 5000 !important;
+    background-color: rgb(116, 116, 116) !important;
+}
+
+.session__Model{
+    width: 500px;
+    /* z-index: 5000 !important; */
+    background-color: rgb(248, 248, 248) !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) !important;
+    text-align: center;
+    padding: 30px;
+    border: none transparent !important;
+    border-radius: 0 !important;
+}
+
+.session__ModalBtn{
+    background-color: red;
+    color: #fff;
+    border-color: red;
+}
+
+.session__ModalBtn:hover{
+    background-color:red;
+    color: #fff;
+    border-color: red;
+}
+
+.session__ModalBtn:focus{
+    background-color: red;
+    color: #fff;
+    border-color: red;
+}
+
+.session__ModalPara{
+    font-size: 16px;
+}
+

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { getPaymentData, getPaymentDataById } from '../API_services/API_services';
 import './ViewPayments.css';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function ViewPayments() {
 
@@ -9,10 +11,13 @@ function ViewPayments() {
     const [transData, setTransData] = useState([]);
     const [payId, setPayId] = useState();
 
+    const [modalShow, setModalShow] = useState(false)
+
     console.log(payId);
 
     const handleOnClck = (payid) => {
         setPayId(payid)
+        setModalShow(true)
     }
 
     useEffect(() => {
@@ -86,55 +91,63 @@ function ViewPayments() {
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="modal fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Transaction Info</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <table className='table table-bordered payment__DetailTbl' style={{ fontSize: "12px" }}>
-                                        <thead>
+                </div>
+                <div className="row">
+                    <Modal
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                        size="xl"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title id="contained-modal-title-vcenter">
+                                Payment Transaction Status
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <table className='table table-bordered payment__DetailTbl' style={{ fontSize: "12px" }}>
+                                <thead>
+                                    <tr>
+                                        <th>Payment Id</th>
+                                        <th>Bank Name</th>
+                                        <th>Tour Id</th>
+                                        <th>PNR</th>
+                                        <th>Net Amount</th>
+                                        <th>Paid Amount</th>
+                                        <th>Bank Charge</th>
+                                        <th>Auth Token</th>
+                                        <th>Transaction Token</th>
+                                        <th>Payment Status</th>
+                                        <th>Transaction Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        <>
                                             <tr>
-                                                <th>Payment Id</th>
-                                                <th>Bank Name</th>
-                                                <th>Tour Id</th>
-                                                <th>PNR</th>
-                                                <th>Net Amount</th>
-                                                <th>Paid Amount</th>
-                                                <th>Bank Charge</th>
-                                                <th>Auth Token</th>
-                                                <th>Transaction Token</th>
-                                                <th>Payment Status</th>
-                                                <th>Transaction Date</th>
+                                                <td>{transData?.['PaymentId']}</td>
+                                                <td>{transData?.['bank_name']}</td>
+                                                <td>{transData?.['tour_id']}</td>
+                                                <td>{transData?.['PNR']}</td>
+                                                <td>{transData?.['net_amount']}</td>
+                                                <td>{transData?.['with_charge']}</td>
+                                                <td>{transData?.['charge']}%</td>
+                                                <td>{transData?.['auth_token']}</td>
+                                                <td>{transData?.['trans_token']}</td>
+                                                <td style={transData?.['payment_status'] === 'CAPTURED' ? { backgroundColor: "#a0e5a0", fontWeight: "600", color: "#000" } : { backgroundColor: "#eb6a6a", color: "#fff", fontWeight: "600" }}>{transData?.['payment_status'] === 'CAPTURED' ? 'SUCCESS' : 'FAILED'}</td>
+                                                <td>{transData?.['created_at']}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                <>
-                                                    <tr>
-                                                        <td>{transData?.['PaymentId']}</td>
-                                                        <td>{transData?.['bank_name']}</td>
-                                                        <td>{transData?.['tour_id']}</td>
-                                                        <td>{transData?.['PNR']}</td>
-                                                        <td>{transData?.['net_amount']}</td>
-                                                        <td>{transData?.['with_charge']}</td>
-                                                        <td>{transData?.['charge']}%</td>
-                                                        <td>{transData?.['auth_token']}</td>
-                                                        <td>{transData?.['trans_token']}</td>
-                                                        <td style={transData?.['payment_status'] === 'CAPTURED' ? { backgroundColor: "#a0e5a0", fontWeight: "600", color: "#000" } : { backgroundColor: "#eb6a6a", color: "#fff",fontWeight:"600" }}>{transData?.['payment_status'] === 'CAPTURED' ? 'SUCCESS' : 'FAILED'}</td>
-                                                        <td>{transData?.['created_at']}</td>
-                                                    </tr>
-                                                </>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        </>
+                                    }
+                                </tbody>
+                            </table>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={() => setModalShow(false)}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </div>
             </div>
         </div>
