@@ -31,6 +31,9 @@ Route::get('/get_count', [PaymentController::class, 'getCount']);
 Route::post('/print_reciept', [PaymentController::class, 'printPdf']);
 Route::post('/get_payment_details_by_id', [PaymentController::class, 'getPaymentsDetailsById']);
 
+
+//Latest commit has done 
+
 Route::group(['middleware' => 'api'], function () {
     Route::post('/auth_user', [AuthController::class, 'getAuthUser']);
 });
