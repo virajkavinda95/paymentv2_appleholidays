@@ -37,9 +37,9 @@ class Payment extends Model
         $this->payment_amounts = new PaymentAmount();
         $this->transactions = new Transaction();
 
-        $this->APIUsername = 'merchant.TESTAPPLEHOLILKR';
-        $this->APIPassword = '2647d21e46251c604f5acb25db01bb7a';
-        $this->MerchantId = 'TESTAPPLEHOLILKR';
+        $this->APIUsername = 'merchant.APPLEHOLILKR';
+        $this->APIPassword = 'bc8b222042f14dacac1ba1c18ea05b93';
+        $this->MerchantId = 'APPLEHOLILKR';
     }
 
 
