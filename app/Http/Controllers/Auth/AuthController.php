@@ -27,21 +27,41 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login()
+    public function login(Request $request)
     {
         try {
-            $credentials = request(['email', 'password']);
 
-            // return $token;
-
-            if (!$token = auth()->attempt($credentials)) {
+            if (!Auth::attempt($request->only('email', 'password'))) {
                 return response([
                     'status' => 401,
                     'message' => 'Unauthorized'
                 ]);
+            } else {
+
+                $user = User::where('email', $request['email'])->firstOrFail();
+
+                $token = $user->createToken('auth_token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                    'expires_in' => 60 * 60,
+                    'user' => auth()->user()
+                ]);
             }
 
-            return $this->respondWithToken($token);
+            // $credentials = request(['email', 'password']);
+
+            // // return $token;
+
+            // if (!$token = auth()->attempt($credentials)) {
+            //     return response([
+            //         'status' => 401,
+            //         'message' => 'Unauthorized'
+            //     ]);
+            // }
+
+            // return $this->respondWithToken($token);
         } catch (\Exception $ex) {
             throw $ex;
         }

@@ -12,7 +12,7 @@ function authUser() {
     var token = sessionStorage.getItem('token')
 
     const apiUrl = axios.create({
-        baseURL: "https://paydev.appletechlabs.com/api",
+        baseURL: "http://localhost:8000/api",
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json",
@@ -39,7 +39,7 @@ async function createPaymentLinkUrl(dataset) {
             }
         }).then((res) => {
             if (res.data.status === 200) {
-                reslin = 'https://paydev.appletechlabs.com/api/payment_checkout/payment_session/' + res.data.session_id + '/' + res.data.version + '/' + res.data.pid;
+                reslin = 'http://localhost:8000/api/payment_checkout/payment_session/' + res.data.session_id + '/' + res.data.version + '/' + res.data.pid;
                 data_set = res.data.data_set;
                 payid = res.data.pid
 

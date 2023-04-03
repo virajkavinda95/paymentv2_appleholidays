@@ -29,6 +29,7 @@ function Login() {
         formdata.append('password', loginData.password);
 
         http_call.post('/login', formdata).then((res) => {
+            console.log(res)
             if (res.data.status === 200) {
 
                 setToken(res.data.user, res.data.access_token);
