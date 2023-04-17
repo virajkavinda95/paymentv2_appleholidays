@@ -26,6 +26,7 @@ function SessionTime() {
         setTimeOutRef.current = setTimeout(1.2e+6);
     }
 
+// session timeout happens on every 20 mintues
     const idleTImer = useIdleTimer({
         crossTab: true,
         ref: idleTimerRef,
