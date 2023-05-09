@@ -21,10 +21,14 @@ class AuthController extends Controller
 
     public function getAuthUser()
     {
-        return response([
-            'status' => 200,
-            'user' => auth()->user()
-        ]);
+        try {
+            return response([
+                'status' => 200,
+                'user' => auth()->user()
+            ]);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 
     public function login(Request $request)
@@ -49,19 +53,6 @@ class AuthController extends Controller
                     'user' => auth()->user()
                 ]);
             }
-
-            // $credentials = request(['email', 'password']);
-
-            // // return $token;
-
-            // if (!$token = auth()->attempt($credentials)) {
-            //     return response([
-            //         'status' => 401,
-            //         'message' => 'Unauthorized'
-            //     ]);
-            // }
-
-            // return $this->respondWithToken($token);
         } catch (\Exception $ex) {
             throw $ex;
         }

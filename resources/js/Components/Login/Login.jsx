@@ -28,24 +28,27 @@ function Login() {
         formdata.append('email', loginData.email);
         formdata.append('password', loginData.password);
 
-        http_call.post('/login', formdata).then((res) => {
-            console.log(res)
-            if (res.data.status === 200) {
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            http_call.post('/login', formdata).then((res) => {
+                console.log(res)
+                if (res.data.status === 200) {
 
-                setToken(res.data.user, res.data.access_token);
-                navigate('/portal_dashboard/main__')
-            }
-            if (res.data.status === 401) {
-                toast.error('Unauthorized User | Please check the credentials again!', {
-                    style: {
-                        background: '#333',
-                        color: '#fff',
-                    }
-                })
-            }
-        }).catch((err) => {
-            throw new Error(err);
-        })
+                    setToken(res.data.user, res.data.access_token);
+                    navigate('/portal_dashboard/main__')
+                }
+                if (res.data.status === 401) {
+                    toast.error('Unauthorized User | Please check the credentials again!', {
+                        style: {
+                            background: '#333',
+                            color: '#fff',
+                        }
+                    })
+                }
+            }).catch((err) => {
+                throw new Error(err);
+            });
+        });
+
     }
 
     useEffect(() => {

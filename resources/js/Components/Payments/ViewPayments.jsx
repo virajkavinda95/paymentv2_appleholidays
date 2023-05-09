@@ -68,7 +68,7 @@ function ViewPayments() {
                                     paymentData?.map((val, idx) => {
                                         return (
                                             <>
-                                                <tr>
+                                                <tr key={idx}>
                                                     <td>{val['PaymentId']}</td>
                                                     <td>{val['customer_email']}</td>
                                                     <td>{val['payment_for']}</td>

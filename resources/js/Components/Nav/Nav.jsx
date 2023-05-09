@@ -29,7 +29,7 @@ function Nav(props) {
                                             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Payments
                                             </a>
-                                            <ul class="dropdown-menu">
+                                            <ul className="dropdown-menu">
                                                 <li> <NavLink className="dropdown-item" to="new_payment_creation">New Payment Creation</NavLink></li>
                                                 <li><NavLink className="dropdown-item" to="payments_history">View Payments</NavLink></li>
                                             </ul>
