@@ -12,7 +12,7 @@ function authUser() {
     var token = sessionStorage.getItem('token')
 
     const apiUrl = axios.create({
-        baseURL: "https://paydev.appletechlabs.com/api",
+        baseURL: "https://paydev.appletechlabs.com/api/",
         headers: {
             'Accept': 'application/json',
             "Content-Type": "application/json",

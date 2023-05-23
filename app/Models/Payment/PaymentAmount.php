@@ -17,11 +17,12 @@ class PaymentAmount extends Model
         'payment_id',
         'net_amount',
         'with_charge',
-        'charge'
+        'charge',
+        'currency'
     ];
 
     //create a new payment amount
-    public function createPaymentAmount($payId, $netAmount, $withCharge, $charge)
+    public function createPaymentAmount($payId, $netAmount, $withCharge, $charge, $currency)
     {
         try {
 
@@ -29,7 +30,8 @@ class PaymentAmount extends Model
                 'payment_id' => $payId,
                 'net_amount' => $netAmount,
                 'with_charge' => $withCharge,
-                'charge' => $charge
+                'charge' => $charge,
+                'currency' => $currency
             ]);
 
             return response('success', 200);

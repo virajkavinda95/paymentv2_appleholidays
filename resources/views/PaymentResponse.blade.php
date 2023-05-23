@@ -50,7 +50,7 @@
                                 <td style="text-align: right;padding: 10px;">{{ $dataset->customer_email }}</td>
                             </tr>
                             <tr>
-                                <td style="font-weight:600;padding: 10px;">Amount Paid (LKR)</td>
+                                <td style="font-weight:600;padding: 10px;">Amount Paid ({{ $currency }})</td>
                                 <td style="text-align: right;font-weight:600;padding: 10px;">{{ $dataset->with_charge }}</td>
                             </tr>
                             <tr>

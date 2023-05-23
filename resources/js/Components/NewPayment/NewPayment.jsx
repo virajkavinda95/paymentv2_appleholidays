@@ -11,6 +11,9 @@ function NewPayment() {
     $(document).ready(function () {
         $('#paymentform').validate();
     })
+    var user_string = sessionStorage.getItem('user')
+    var uid = JSON.parse(user_string)
+
 
     const [loading, setLoading] = useState()
 
@@ -31,7 +34,8 @@ function NewPayment() {
         chargeprec: 0.00,
         payamnt: 0.00,
         withchargamnt: 0.00,
-        paytype: 'Full Pay'
+        paytype: 'Full Pay',
+        currency_type: 'LKR'
     });
 
     const finalAmountCalculation = (amount, precentage, payamount) => {
@@ -81,9 +85,10 @@ function NewPayment() {
         formData.append('payamnt', linkFormData.payamnt);
         formData.append('withchargamnt', linkFormData.withchargamnt);
         formData.append('paytype', linkFormData.paytype);
-        formData.append('user_id', '1');
+        formData.append('currency_type', linkFormData.currency_type);
+        formData.append('user_id', uid.id);
 
-        console.log(linkFormData)
+        console.log(...formData)
         setLoading(true)
         createPaymentLinkUrl(formData).then((res) => {
             console.log(res);
@@ -131,7 +136,16 @@ function NewPayment() {
                             <label className="form-label" htmlFor="tourid">Tour Id <span className='req__Star'>*</span></label>
                             <input type="text" className="form-control required" id="tourid" name="tourid" onChange={handleChange} placeholder="Tour id" />
                         </div>
-                        <div className="form-group col-md-6">
+                        <div className='col-md-3'>
+                            <label className="form-label" htmlFor="currency_type">Currency <span className='req__Star'>*</span></label>
+
+                            <select className='form-select currency_type required' name='currency_type' onChange={handleChange} id='currency_type'>
+                                <option>--select currency--</option>
+                                <option value={'LKR'} selected>LKR</option>
+                                <option value={'USD'}>USD</option>
+                            </select>
+                        </div>
+                        <div className="form-group col-md-3">
                             <label className="form-label" htmlFor="totamount">Total Amount <span className='req__Star'>*</span></label>
                             <input type="number" className="form-control required" min={0} id="totamount" name="totamount" onChange={handleChange} value={linkFormData?.totamount} placeholder="Total Amount" />
                         </div>
@@ -172,7 +186,7 @@ function NewPayment() {
                             <select className="form-select" id="chargeprec" name="chargeprec" onChange={handleChange} aria-label="Floating label select example">
                                 {/* <option selected>--select charge amount--</option> */}
                                 <option value="0">None</option>
-                                <option value="2.5">2.5%</option>
+                                <option value="3.15">3.15%</option>
                                 <option value="3">3%</option>
                             </select>
                         </div>
@@ -209,8 +223,8 @@ function NewPayment() {
                                             <p className="semi_Text">Tour ID: {linkData.dataset.tour_id}</p>
                                             <p className="semi_Text">PNR: {linkData.dataset.PNR}</p>
                                             <p className="semi_Text">Payment Method: {linkData.dataset.payment_type}</p>
-                                            <p className="semi_Text">Full Amount (LKR): {linkData.dataset.total_amount}</p>
-                                            <p className="semi_Text">Paying Amount (LKR): {linkData.dataset.with_charge}</p>
+                                            <p className="semi_Text">Full Amount ({linkData.dataset.currency}): {linkData.dataset.total_amount}</p>
+                                            <p className="semi_Text">Paying Amount ({linkData.dataset.currency}): {linkData.dataset.with_charge}</p>
                                             <p className="semi_Text">Customer Email: {linkData.dataset.customer_email}</p>
                                             <p className="semi_Text"><b>Link:</b> <a href={linkData.url} target={"_blank"} style={{ fontSize: "13px" }}>{linkData.url}</a></p>
 

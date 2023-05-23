@@ -36,10 +36,11 @@ class PaymentController extends Controller
             $PayAmount = $request['payamnt'];
             $WithChargeAmount = $request['withchargamnt'];
             $PayType = $request['paytype'];
+            $CurrencyType = $request['currency_type'];
             $User = $request['user_id'];
             $BalanceAmount = (float)($request['totamount'] - $request['payamnt']);
 
-            $response = $this->payment->createNewPayment($PaymentFor, $CustomerEmail, $TourId, $TotalAmount, $PNR, $Remarks, $BankName, $ChargerPrecen, $PayAmount, $WithChargeAmount, $PayType, $BalanceAmount, $User);
+            $response = $this->payment->createNewPayment($PaymentFor, $CustomerEmail, $TourId, $TotalAmount, $PNR, $Remarks, $BankName, $ChargerPrecen, $PayAmount, $WithChargeAmount, $PayType, $BalanceAmount, $User, $CurrencyType);
 
             return $response;
         } catch (\Exception $ex) {
@@ -68,13 +69,13 @@ class PaymentController extends Controller
         }
     }
 
-    public function getPaymentResponseFull($id)
+    public function getPaymentResponseFull($id, $currency_type)
     {
         $paymentId = $id;
 
-        $response = $this->payment->getPaymentResponse($paymentId);
+        $response = $this->payment->getPaymentResponse($paymentId, $currency_type);
 
-        return view('PaymentResponse', ['dataset' => $response, 'id' => $paymentId]);
+        return view('PaymentResponse', ['dataset' => $response, 'id' => $paymentId, 'currency' => $currency_type]);
         // return $data;
     }
 
@@ -118,9 +119,9 @@ class PaymentController extends Controller
         }
     }
 
-    public function getPaymentRes($id)
+    public function getPaymentRes($id, $currency_type)
     {
-        $response = $this->payment->getPaymentResponse($id);
+        $response = $this->payment->getPaymentResponse($id, $currency_type);
 
         return $response;
     }

@@ -42,7 +42,7 @@
 
                 <div class="info__Section" style="display: block;margin:40px auto;padding:0px 40px;">
                     <p style="font-weight:bold;font-size:14px">Payment Ref: {{ $dataset->payment_id }}</p>
-                    <p style="font-weight:bold;font-size:14px">Total Amount (LKR): {{ $dataset->with_charge }}</p>
+                    <p style="font-weight:bold;font-size:14px">Total Amount ({{ $dataset->currency }}): {{ $dataset->with_charge }}</p>
                     <p style="font-weight:bold;font-size:14px">Payment Type: {{ $dataset->payment_type }}</p>
                     <p style="font-weight:bold;font-size:14px">Customer E-mail: {{ $dataset->customer_email }}</p>
 

@@ -30,6 +30,10 @@ class Payment extends Model
     public $APIPassword;
     public $MerchantId;
 
+    public $APIUsernameUSD;
+    public $APIPasswordUSD;
+    public $MerchantIdUSD;
+
     public function __construct()
     {
         $this->payment_details = new PaymentDetail();
@@ -37,15 +41,20 @@ class Payment extends Model
         $this->payment_amounts = new PaymentAmount();
         $this->transactions = new Transaction();
 
-        $this->APIUsername = 'merchant.APPLEHOLILKR';
-        $this->APIPassword = 'bc8b222042f14dacac1ba1c18ea05b93';
-        $this->MerchantId = 'APPLEHOLILKR';
+        $this->APIUsername = 'merchant.TESTAPPLEHOLILKR';
+        $this->APIPassword = '2647d21e46251c604f5acb25db01bb7a';
+        $this->MerchantId = 'TESTAPPLEHOLILKR';
+
+        //USD Credentials
+        $this->APIUsernameUSD = 'merchant.TESTAPPLEHOLIUSD';
+        $this->APIPasswordUSD = 'b81d52394f0f3046122d4c368072b0b0';
+        $this->MerchantIdUSD = 'TESTAPPLEHOLIUSD';
     }
 
 
 
     //create new payment
-    public function createNewPayment($payfor, $cusemail, $tourid, $totamount, $pnr, $remarks, $bankname, $chargeprece, $payamount, $withchargeamount, $paytype, $balamount, $user)
+    public function createNewPayment($payfor, $cusemail, $tourid, $totamount, $pnr, $remarks, $bankname, $chargeprece, $payamount, $withchargeamount, $paytype, $balamount, $user, $currencytype)
     {
         try {
 
@@ -59,21 +68,29 @@ class Payment extends Model
             $CheckoutArray['apiOperation'] = "INITIATE_CHECKOUT";
             $CheckoutArray['interaction']['merchant']['name'] = 'Apple Holidays';
             $CheckoutArray['interaction']['operation'] = "PURCHASE";
-            $CheckoutArray['interaction']['returnUrl'] = "https://paydev.appletechlabs.com/api/get_pay_response/" . $NewPayment->id;
+            $CheckoutArray['interaction']['returnUrl'] = "https://paydev.appletechlabs.com/api/get_pay_response/" . $NewPayment->id . "/" . $currencytype;
             $CheckoutArray['interaction']['displayControl']['billingAddress'] = 'HIDE';
             $CheckoutArray['interaction']['displayControl']['customerEmail'] = "HIDE";
             $CheckoutArray['interaction']['displayControl']['shipping'] = "HIDE";
             $CheckoutArray['order']['amount'] = $withchargeamount;
-            $CheckoutArray['order']['currency'] = "LKR";
+            $CheckoutArray['order']['currency'] = $currencytype;
             $CheckoutArray['order']['description'] = $remarks;
             $CheckoutArray['order']['id'] = $NewPayment->id;
 
             // return $CheckoutArray;
 
-            $API_Response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->post('https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/session', $CheckoutArray)->json();
+            if ($currencytype === 'LKR') {
+
+                $API_Response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->post('https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/session', $CheckoutArray)->json();
+            } else {
+                $API_Response = Http::withBasicAuth($this->APIUsernameUSD, $this->APIPasswordUSD)->post('https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantIdUSD . '/session', $CheckoutArray)->json();
+            }
+
+
+            // return $API_Response;
 
             $this->payment_details->createNewPaymentDetail($NewPayment->id, $cusemail, $bankname, $tourid, $pnr, $remarks, $paytype, $user);
-            $this->payment_amounts->createPaymentAmount($NewPayment->id, $totamount, $withchargeamount, $chargeprece);
+            $this->payment_amounts->createPaymentAmount($NewPayment->id, $totamount, $withchargeamount, $chargeprece, $currencytype);
             $this->pending_payments->createPendingPayment($NewPayment->id, $totamount, $payamount, $balamount);
 
             $sessionId = $API_Response['session']['id'];
@@ -111,13 +128,21 @@ class Payment extends Model
     }
 
     //get created payment response
-    public function getPaymentResponse($id)
+    public function getPaymentResponse($id, $currency_type)
     {
         try {
 
-            $Url = 'https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/order/' . $id;
+            if ($currency_type === 'LKR') {
 
-            $API_response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->get($Url)->json();
+                $Url = 'https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/order/' . $id;
+
+                $API_response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->get($Url)->json();
+            } else {
+                $Url = 'https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantIdUSD . '/order/' . $id;
+
+                $API_response = Http::withBasicAuth($this->APIUsernameUSD, $this->APIPasswordUSD)->get($Url)->json();
+            }
+
 
             // $AuthToken = $API_response['transaction'][0]['transaction']['receipt'];
             // $TransToken = $API_response['transaction']['acquirer']['transactionId'];
