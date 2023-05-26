@@ -127,4 +127,25 @@ async function getCountData() {
     }
 }
 
-export { createPaymentLinkUrl, getPaymentData, getCountData, getPaymentDataById }
+async function getPaymentStatusCheck(id, currency) {
+    try {
+
+        await axios.get(`/check_payment_status/${id}/${currency}`).then((res) => {
+            // toast.loading('Please wait...')
+            if (res.data.status === 404) {
+                toast.error('Payment not processed')
+            }
+            if (res.data.status === 200) {
+                toast.success('Payment Processed')
+            }
+
+        }).catch((err) => {
+            throw new Error(err)
+        })
+
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+
+export { createPaymentLinkUrl, getPaymentData, getCountData, getPaymentDataById, getPaymentStatusCheck }

@@ -75,6 +75,8 @@ class PaymentController extends Controller
 
         $response = $this->payment->getPaymentResponse($paymentId, $currency_type);
 
+        // return $response;
+
         return view('PaymentResponse', ['dataset' => $response, 'id' => $paymentId, 'currency' => $currency_type]);
         // return $data;
     }
@@ -122,6 +124,13 @@ class PaymentController extends Controller
     public function getPaymentRes($id, $currency_type)
     {
         $response = $this->payment->getPaymentResponse($id, $currency_type);
+
+        return $response;
+    }
+
+    public function getPaymentCheckStatus($id,$currency)
+    {
+        $response = $this->payment->checkPaymentStatus($id, $currency);
 
         return $response;
     }

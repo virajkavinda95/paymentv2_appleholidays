@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { getPaymentData, getPaymentDataById } from '../API_services/API_services';
+import { getPaymentData, getPaymentDataById, getPaymentStatusCheck } from '../API_services/API_services';
 import './ViewPayments.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -13,11 +13,16 @@ function ViewPayments() {
 
     const [modalShow, setModalShow] = useState(false)
 
-    console.log(payId);
+    console.log(paymentData);
 
     const handleOnClck = (payid) => {
         setPayId(payid)
         setModalShow(true)
+    }
+
+    const handleCheckPayment = (payid,currency) => {
+        setPayId(payid)
+        getPaymentStatusCheck(payid, currency)
     }
 
     useEffect(() => {
@@ -42,7 +47,7 @@ function ViewPayments() {
             <div className='container-fluid'>
                 <div className="row">
                     <div className='col-md-12'>
-                        <table className='table table-bordered payment__DetailTbl'>
+                        <table className='table table-bordered payment__DetailTbl' id='myTable'>
                             <thead>
                                 <tr>
                                     <th rowSpan={2}>#</th>
@@ -51,16 +56,18 @@ function ViewPayments() {
                                     <th colSpan={2}>
                                         Tour
                                     </th>
-                                    <th rowSpan={2}>Date</th>
-                                    <th rowSpan={2}>Amount (LKR)</th>
-                                    <th rowSpan={2}>Paid Amount (LKR)</th>
+                                    <th colSpan={2}>Payments</th>
                                     <th rowSpan={2}>Remarks</th>
                                     <th rowSpan={2}>Created User</th>
+                                    <th rowSpan={2}>Date</th>
+                                    <th rowSpan={2}>Payment Link</th>
                                     <th rowSpan={2}>Actions</th>
                                 </tr>
                                 <tr>
                                     <th scope='col'>Tour ID</th>
                                     <th scope='col'>PNR</th>
+                                    <th scope='col'>Amount</th>
+                                    <th scope='col'>Paid Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,13 +81,15 @@ function ViewPayments() {
                                                     <td>{val['payment_for']}</td>
                                                     <td>{val['tour_id']}</td>
                                                     <td>{val['PNR']}</td>
-                                                    <td>{val['created_at']}</td>
-                                                    <td>{val['total_amount']}</td>
-                                                    <td>{val['with_charge']}</td>
+                                                    <td>{val['currency'] === 'USD' ? '$' : 'Rs. '}{val['total_amount']}</td>
+                                                    <td>{val['currency'] === 'USD' ? '$' : 'Rs. '}{val['with_charge']}</td>
                                                     <td>{val['remarks']}</td>
                                                     <td>{val['name']}</td>
+                                                    <td>{val['CreatedAt']}</td>
+                                                    <td>{val['pay_link']}</td>
                                                     <td style={{ textAlign: 'center' }}>
-                                                        <button type="button" className='btn btn-sm btn__ViewTrans' data-bs-toggle="modal" onClick={() => { handleOnClck(val['PaymentId']) }} data-bs-target="#staticBackdrop">View Transaction&nbsp;<i class="bi bi-info-circle"></i></button>
+                                                        <button type="button" className='btn btn-sm btn__ViewTrans mr-1' data-bs-toggle="modal" onClick={() => { handleOnClck(val['PaymentId']) }} data-bs-target="#staticBackdrop">View Transaction&nbsp;<i class="bi bi-eye"></i></button>
+                                                        <button type="button" className='btn btn-sm btn__ViewTrans' data-bs-toggle="modal" onClick={() => { handleCheckPayment(val['PaymentId'], val['currency']) }} data-bs-target="#staticBackdrop">Check Payment Status&nbsp;<i class="bi bi-info-circle"></i></button>
                                                     </td>
                                                 </tr>
 
@@ -136,7 +145,7 @@ function ViewPayments() {
                                                 <td>{transData?.['auth_token']}</td>
                                                 <td>{transData?.['trans_token']}</td>
                                                 <td style={transData?.['payment_status'] === 'CAPTURED' ? { backgroundColor: "#a0e5a0", fontWeight: "600", color: "#000" } : { backgroundColor: "#eb6a6a", color: "#fff", fontWeight: "600" }}>{transData?.['payment_status'] === 'CAPTURED' ? 'SUCCESS' : 'FAILED'}</td>
-                                                <td>{transData?.['created_at']}</td>
+                                                <td>{transData?.['TransTime']}</td>
                                             </tr>
                                         </>
                                     }

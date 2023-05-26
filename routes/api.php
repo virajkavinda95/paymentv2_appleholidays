@@ -30,7 +30,7 @@ Route::get('/get_payment_details', [PaymentController::class, 'getPaymentsDetail
 Route::get('/get_count', [PaymentController::class, 'getCount']);
 Route::post('/print_reciept', [PaymentController::class, 'printPdf']);
 Route::post('/get_payment_details_by_id', [PaymentController::class, 'getPaymentsDetailsById']);
-
+Route::get('/check_payment_status/{id}/{currency_type}', [PaymentController::class, 'getPaymentCheckStatus']);
 
 //Latest commit has done 
 

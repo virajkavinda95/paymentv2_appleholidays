@@ -2,6 +2,7 @@
 
 namespace App\Models\Payment;
 
+use App\Models\PayLink;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,7 @@ class Payment extends Model
     public $pending_payments;
     public $payment_amounts;
     public $transactions;
+    public $paylink;
 
     public $APIUsername;
     public $APIPassword;
@@ -40,6 +42,7 @@ class Payment extends Model
         $this->pending_payments = new PendingPayment();
         $this->payment_amounts = new PaymentAmount();
         $this->transactions = new Transaction();
+        $this->paylink = new PayLink();
 
         $this->APIUsername = 'merchant.TESTAPPLEHOLILKR';
         $this->APIPassword = '2647d21e46251c604f5acb25db01bb7a';
@@ -114,6 +117,12 @@ class Payment extends Model
                 ->join('payment_amounts', 'payments.id', '=', 'payment_amounts.payment_id')
                 ->join('pending_payments', 'payments.id', '=', 'pending_payments.payment_id')
                 ->get();
+
+            $paylink = "https://paydev.appletechlabs.com/api/payment_checkout/payment_session/" . $session_id . '/' . $version_id . '/' . $pid;
+
+            $this->paylink->createPayLinkRow($pid, $paylink);
+
+            //http://localhost:8000/api/payment_checkout/payment_session/' + res.data.session_id + '/' + res.data.version + '/' + res.data.pid
 
             return response([
                 'status' => 200,
@@ -209,10 +218,11 @@ class Payment extends Model
                 ->join('payment_details', 'payments.id', '=', 'payment_details.payment_id')
                 ->join('payment_amounts', 'payments.id', '=', 'payment_amounts.payment_id')
                 ->join('pending_payments', 'payments.id', '=', 'pending_payments.payment_id')
-                ->join('transactions', 'payments.id', '=', 'transactions.payment_id')
+                ->join('pay_links', 'payments.id', '=', 'pay_links.pay_id')
+                // ->join('transactions', 'payments.id', '=', 'transactions.payment_id')
                 ->join('users', 'payment_details.created_by', '=', 'users.id')
-                ->select('*', 'payments.id AS PaymentId', 'transactions.id AS TransactionId')
-                ->groupBy('payments.id')
+                ->select('*', 'payments.id AS PaymentId', 'payments.created_at AS CreatedAt')
+                ->groupBy('payments.id')->orderBy('payments.id', 'DESC')
                 ->get();
 
 
@@ -255,7 +265,7 @@ class Payment extends Model
                 ->join('pending_payments', 'payments.id', '=', 'pending_payments.payment_id')
                 ->join('transactions', 'payments.id', '=', 'transactions.payment_id')
                 ->join('users', 'payment_details.created_by', '=', 'users.id')
-                ->select('*', 'payments.id AS PaymentId', 'transactions.id AS TransactionId')
+                ->select('*', 'payments.id AS PaymentId', 'transactions.id AS TransactionId', 'transactions.created_at AS TransTime')
                 ->groupBy('payments.id')
                 ->first();
 
@@ -266,6 +276,37 @@ class Payment extends Model
             ]);
         } catch (\Exception $ex) {
             throw $ex;
+        }
+    }
+
+    //check payment status seperately
+    public function checkPaymentStatus($id, $currency)
+    {
+        try {
+            if ($currency === 'LKR') {
+
+                $Url = 'https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantId . '/order/' . $id;
+
+                $API_response = Http::withBasicAuth($this->APIUsername, $this->APIPassword)->get($Url)->json();
+            } else {
+                $Url = 'https://cbcmpgs.gateway.mastercard.com/api/rest/version/67/merchant/' . $this->MerchantIdUSD . '/order/' . $id;
+
+                $API_response = Http::withBasicAuth($this->APIUsernameUSD, $this->APIPasswordUSD)->get($Url)->json();
+            }
+
+
+            if ($API_response['result'] === 'ERROR') {
+                return response([
+                    'status' => 404,
+                    'data_response' => 'Payment not done yet'
+                ]);
+            } else {
+                return response([
+                    'status' => 200
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }
