@@ -44,14 +44,15 @@ class Payment extends Model
         $this->transactions = new Transaction();
         $this->paylink = new PayLink();
 
-        $this->APIUsername = 'merchant.TESTAPPLEHOLILKR';
-        $this->APIPassword = '2647d21e46251c604f5acb25db01bb7a';
-        $this->MerchantId = 'TESTAPPLEHOLILKR';
+        //LKR Credentials
+        $this->APIUsername = 'merchant.APPLEHOLILKR';
+        $this->APIPassword = 'bc8b222042f14dacac1ba1c18ea05b93';
+        $this->MerchantId = 'APPLEHOLILKR';
 
         //USD Credentials
-        $this->APIUsernameUSD = 'merchant.TESTAPPLEHOLIUSD';
-        $this->APIPasswordUSD = 'b81d52394f0f3046122d4c368072b0b0';
-        $this->MerchantIdUSD = 'TESTAPPLEHOLIUSD';
+        $this->APIUsernameUSD = 'merchant.APPLEHOLIUSD';
+        $this->APIPasswordUSD = '4f31dc85f3cb5e34c814535ad1ecb3df';
+        $this->MerchantIdUSD = 'APPLEHOLIUSD';
     }
 
 
